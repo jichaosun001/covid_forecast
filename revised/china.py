@@ -92,7 +92,7 @@ def plot_certain_date(plot_date,number_list):
     ax.xaxis.set_major_locator(xmajorLocator)
     #打开网格
     ax.xaxis.grid(True, which='major') #x坐标轴的网格使用主刻度
-    plt.title('Predict date: '+all_dates[plot_point[i]],label_font)
+    plt.title('China except Hubei, Predict date: '+all_dates[plot_point[i]],label_font)
     plt.savefig(os.path.join(output_dir,'china/china_cumula_{}.png'.format(the_date)),dpi=500,bbox_inches = 'tight')
     plt.show()
 

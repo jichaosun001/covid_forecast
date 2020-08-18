@@ -11,14 +11,14 @@ os.sys.path.append(root_dir)
 output_dir=os.path.join(current_dir,'output')
 import json
 
-from .R0_decrease_select import SEIR_exp
+from ..R0_decrease_select import SEIR_exp
 import pandas as pd
 from datetime import datetime,timedelta
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 import matplotlib.pyplot as plt
 import copy
-from .utils.utils import incre_list_to_numbers,process_first_batch
-from .utils.utils import get_all_data,get_single_district
+from ..utils.utils import incre_list_to_numbers,process_first_batch
+from ..utils.utils import get_all_data,get_single_district
 
 all_dict=get_all_data()
 district='wuhan'
@@ -26,10 +26,12 @@ start_date,raw_number_list=get_single_district(all_dict,district)
 raw_number_list=raw_number_list[4:]
 raw_incre_list=SEIR_exp().get_incre_number(raw_number_list)
 raw_number_list,raw_incre_list=process_first_batch(raw_number_list,raw_incre_list,first_batch=5)
+## raw_number_list add more numbers to 7-12
+with open(os.path.join(current_dir,'data/wuhan.txt'),'r',encoding='utf-8') as f:
+    all_numbers=f.readlines()
+    add_numbers=[int(i.strip('\n')) for i in all_numbers]
 
-
-
-
+raw_number_list=raw_number_list+add_numbers
 
 para_config={
     "R0_config":{'min':2,'max':7,'step':1},
@@ -169,7 +171,7 @@ def plot_certain_date(plot_date,raw_number_list=raw_number_list):
         plt.plot(all_dates[0:start_number],number_list[0:start_number],color='grey',linestyle=':',label='Adjust cumulative',linewidth=3)
     # plt.legend(loc=2)  #指定legend的位置,读者可以自己help它的用法
     plt.axvline(x=all_dates[start_number],ls="--",c="green",linewidth=3)#添加垂直直线
-    plt.legend(loc=2, numpoints=1)
+    plt.legend(loc=4, numpoints=1)
     leg = plt.gca().get_legend()
     ltext = leg.get_texts()
     plt.setp(ltext, fontsize='small')
@@ -178,12 +180,12 @@ def plot_certain_date(plot_date,raw_number_list=raw_number_list):
     if start_number in [7,25]:
         plt.ylabel('Number',label_font)
     #修改主刻度
-    xmajorLocator = MultipleLocator(7) #将x主刻度标签设置为20的倍数
+    xmajorLocator = MultipleLocator(21) #将x主刻度标签设置为20的倍数
     #设置主刻度标签的位置,标签文本的格式
     ax.xaxis.set_major_locator(xmajorLocator)
     #打开网格
     ax.xaxis.grid(True, which='major') #x坐标轴的网格使用主刻度
-    plt.title('Predict date: '+all_dates[start_number],label_font)
+    plt.title('Wuhan, Predict date: '+all_dates[start_number],label_font)
     plt.savefig(os.path.join(output_dir,'wuhan/wuhan_cumula_{}.png'.format(the_date)),dpi=500,bbox_inches = 'tight')
     plt.show()
 
@@ -205,7 +207,7 @@ def plot_certain_date(plot_date,raw_number_list=raw_number_list):
     if start_number in [7,25]:
         plt.ylabel('Number',label_font)
     #修改主刻度
-    xmajorLocator = MultipleLocator(7) #将x主刻度标签设置为20的倍数
+    xmajorLocator = MultipleLocator(21) #将x主刻度标签设置为20的倍数
     #设置主刻度标签的位置,标签文本的格式
     ax.xaxis.set_major_locator(xmajorLocator)
     #打开网格
@@ -227,7 +229,7 @@ def plot_certain_date(plot_date,raw_number_list=raw_number_list):
         w.write(parameters_str)
 
 if __name__=='__main__':
-    with open(os.path.join(output_dir,'wuhan/adjust_number.json'),'r',encoding='utf-8') as f:
+    with open(os.path.join(current_dir,'data/wuhan_adjust_numbers.json'),'r',encoding='utf-8') as f:
         number_dict_str=f.read()
     number_dict_=json.loads(number_dict_str)
     number_dict={}

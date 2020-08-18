@@ -32,6 +32,13 @@ para_config={
     "I_config":{'min':5,'max':51,'step':16},
 }
 
+## raw_number_list add more numbers to 7-12
+with open(os.path.join(current_dir,'data/hubei.txt'),'r',encoding='utf-8') as f:
+    all_numbers=f.readlines()
+    add_numbers=[int(i.strip('\n')) for i in all_numbers]
+
+raw_number_list=raw_number_list+add_numbers
+
 def reform_list(clinical_case,all_case,incre_list,start=23,date=0):
     """
     将临床诊断病例摊分到过去7天，包括当天
@@ -157,7 +164,7 @@ def plot_certain_date(plot_date,raw_number_list=raw_number_list):
     if start_number>=24:
         plt.plot(all_dates[0:start_number],number_list[0:start_number],color='grey',linestyle=':',label='Adjust cumulative',linewidth=2)
     # plt.legend(loc=2)  #指定legend的位置,读者可以自己help它的用法
-    plt.legend(loc=2, numpoints=1)
+    plt.legend(loc=4, numpoints=1)
     leg = plt.gca().get_legend()
     ltext = leg.get_texts()
     plt.setp(ltext, fontsize='small')
@@ -165,12 +172,12 @@ def plot_certain_date(plot_date,raw_number_list=raw_number_list):
     plt.xlabel('Date',label_font)
 
     #修改主刻度
-    xmajorLocator = MultipleLocator(7) #将x主刻度标签设置为20的倍数
+    xmajorLocator = MultipleLocator(21) #将x主刻度标签设置为20的倍数
     #设置主刻度标签的位置,标签文本的格式
     ax.xaxis.set_major_locator(xmajorLocator)
     #打开网格
     ax.xaxis.grid(True, which='major') #x坐标轴的网格使用主刻度
-    plt.title('Predict date: '+all_dates[start_number],label_font)
+    plt.title('Hubei except Wuhan, Predict date: '+all_dates[start_number],label_font)
     plt.savefig(os.path.join(output_dir,'hubei/hubei_cumula_{}.png'.format(the_date)),dpi=500,bbox_inches = 'tight')
     plt.show()
 
@@ -192,7 +199,7 @@ def plot_certain_date(plot_date,raw_number_list=raw_number_list):
     if start_number in [7,25]:
         plt.ylabel('Number',label_font)
     #修改主刻度
-    xmajorLocator = MultipleLocator(7) #将x主刻度标签设置为20的倍数
+    xmajorLocator = MultipleLocator(21) #将x主刻度标签设置为20的倍数
     #设置主刻度标签的位置,标签文本的格式
     ax.xaxis.set_major_locator(xmajorLocator)
     #打开网格
