@@ -133,5 +133,5 @@ if __name__=='__main__':
     date_list_for_plot=['2020-01-26','2020-01-27','2020-02-04','2020-02-11','2020-02-18','2020-02-25']
     plot_date=date_list_for_plot[1]
     # plot_certain_date(plot_date,number_list)
-    for plot_date in date_list_for_plot:
-        plot_certain_date(plot_date,number_list)
+    # for plot_date in date_list_for_plot:
+    #     plot_certain_date(plot_date,number_list)

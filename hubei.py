@@ -223,7 +223,7 @@ if __name__=='__main__':
         number_dict[int(k)]=v
     
     date_list_for_plot=['2020-01-27','2020-02-04','2020-02-11','2020-02-14','2020-02-18','2020-02-25']
-    plot_date=date_list_for_plot[0]
-    # plot_certain_date(plot_date)
-    for plot_date in date_list_for_plot:
-        plot_certain_date(plot_date)
+    plot_date=date_list_for_plot[4]
+    plot_certain_date(plot_date)
+    # for plot_date in date_list_for_plot:
+    #     plot_certain_date(plot_date)
